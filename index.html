@@ -1,30 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+
+    <!-- Makes the website fit phones properly -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Duck Website</title>
+    <title>Duck Website 🦆</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <h1>TOOOOOOOOOOOOOTTT! 🦆</h1>
+    <h1>Catch the duck! 🦆</h1>
+
+    <p id="instructions">
+        Catch it 10 times...
+    </p>
 
     <!-- Duck -->
     <div id="duck">🦆</div>
 
-    <!-- Message -->
+    <!-- Cute message -->
     <div id="message"></div>
 
+    <!-- Friend popup -->
+    <div id="friendPopup">
+
+        <div class="popupContent">
+
+            <button id="closeButton">×</button>
+
+            <img src="friend.jpg" alt="My friend">
+
+            <h2>OH NO 😭💨</h2>
+
+            <p>
+                You made the duck fart!
+            </p>
+
+            <p class="smallText">
+                ...and somehow your friend got blamed.
+            </p>
+
+        </div>
+
+    </div>
+
+
     <script>
+
         const duck = document.getElementById("duck");
         const message = document.getElementById("message");
 
-        let hovers = 0;
+        const friendPopup =
+            document.getElementById("friendPopup");
+
+        const closeButton =
+            document.getElementById("closeButton");
+
+        let interactions = 0;
         let stopped = false;
+
 
         const messages = [
             "Quack! 💛",
@@ -36,70 +75,141 @@
             "Quack quack! ✨",
             "You made me smile! 💕",
             "Squeeeak!",
-            "Okay... one more! 😳"
+            "Uh oh... 😳"
         ];
 
-        // Move duck to a random position
+
+        // Move duck somewhere random
         function moveDuck() {
 
-            const maxX = window.innerWidth - 100;
-            const maxY = window.innerHeight - 100;
+            if (stopped) return;
 
-            const x = Math.random() * maxX;
-            const y = Math.random() * maxY;
+            const padding = 20;
+
+            const duckSize = 70;
+
+            const maxX =
+                window.innerWidth - duckSize - padding;
+
+            const maxY =
+                window.innerHeight - duckSize - padding;
+
+            const x =
+                padding + Math.random() * Math.max(0, maxX);
+
+            const y =
+                padding + Math.random() * Math.max(0, maxY);
 
             duck.style.left = x + "px";
             duck.style.top = y + "px";
         }
 
-        // Move duck every 2 seconds
-        const moveTimer = setInterval(function() {
+
+        // Duck moves around automatically
+        const moveTimer = setInterval(function () {
 
             if (!stopped) {
                 moveDuck();
             }
 
-        }, 2000);
+        }, 2500);
 
 
-        // Hover over duck
-        function duckHover() {
+        // Duck interaction
+        function interactWithDuck() {
 
-            if (stopped) {
-                return;
-            }
+            if (stopped) return;
 
-            hovers++;
+            interactions++;
 
-            // Show message
-            message.textContent = messages[hovers - 1];
-            message.style.display = "block";
+            // Show cute message
+            message.textContent =
+                messages[interactions - 1];
+
+            message.classList.add("show");
+
 
             // Move duck
             moveDuck();
 
-            // 10th hover
-            if (hovers >= 10) {
+
+            // Last interaction
+            if (interactions >= 10) {
 
                 stopped = true;
 
                 clearInterval(moveTimer);
 
-                message.textContent = "PFFFFT! 💨🦆";
+                // Change duck into farting duck
+                duck.textContent = "🦆💨";
 
-                // Little fart animation
-                duck.classList.add("fart");
+                duck.classList.add("finalDuck");
 
+                message.textContent =
+                    "PFFFFT! 💨";
+
+                // Wait a moment, then show friend
+                setTimeout(function () {
+
+                    friendPopup.classList.add("show");
+
+                }, 1000);
             }
         }
 
-        duck.addEventListener("mouseenter", duckHover);
+
+        /*
+            DESKTOP:
+            Hover over duck
+
+            MOBILE:
+            Tap duck
+        */
+
+        duck.addEventListener(
+            "mouseenter",
+            interactWithDuck
+        );
 
 
-        // Initial position
+        duck.addEventListener(
+            "click",
+            interactWithDuck
+        );
+
+
+        // Close friend popup
+        closeButton.addEventListener(
+            "click",
+            function () {
+
+                friendPopup.classList.remove("show");
+
+            }
+        );
+
+
+        // Also close if they tap outside popup
+        friendPopup.addEventListener(
+            "click",
+            function (event) {
+
+                if (event.target === friendPopup) {
+
+                    friendPopup.classList.remove("show");
+
+                }
+
+            }
+        );
+
+
+        // Initial duck position
         moveDuck();
 
     </script>
 
 </body>
+
 </html>
+
