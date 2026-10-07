@@ -1,5 +1,12 @@
+* {
+    box-sizing: border-box;
+}
+
+
 body {
+
     margin: 0;
+
     min-height: 100vh;
 
     background: #fff8dc;
@@ -9,47 +16,88 @@ body {
     text-align: center;
 
     overflow: hidden;
+
+    touch-action: manipulation;
 }
 
 
-/* Website title */
+/* Title */
 
 h1 {
-    padding-top: 40px;
+
+    margin-top: 35px;
+
+    padding: 0 20px;
 
     color: #333;
+
+    font-size: clamp(28px, 7vw, 42px);
+}
+
+
+#instructions {
+
+    color: #777;
+
+    font-size: 16px;
+
+    padding: 0 20px;
 }
 
 
 /* Duck */
 
 #duck {
+
     position: fixed;
 
-    font-size: 60px;
+    left: 50%;
+    top: 50%;
+
+    font-size: clamp(50px, 15vw, 75px);
 
     cursor: pointer;
 
     user-select: none;
 
+    -webkit-user-select: none;
+
     transition:
         left 0.8s ease,
         top 0.8s ease,
         transform 0.3s ease;
+
+    z-index: 5;
+
+    /* Makes tapping easier on phones */
+    padding: 10px;
+}
+
+
+/* Little hover effect */
+
+#duck:hover {
+
+    transform: scale(1.15);
+
 }
 
 
 /* Cute message */
 
 #message {
-    display: none;
 
     position: fixed;
 
     left: 50%;
-    bottom: 50px;
 
-    transform: translateX(-50%);
+    bottom: 40px;
+
+    transform:
+        translateX(-50%)
+        translateY(10px);
+
+    max-width: 85vw;
 
     padding: 12px 20px;
 
@@ -57,43 +105,253 @@ h1 {
 
     border-radius: 20px;
 
-    font-size: 18px;
-
     color: #333;
 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    font-size: clamp(15px, 4vw, 18px);
+
+    box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.15);
+
+    opacity: 0;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+
+    pointer-events: none;
 
     z-index: 10;
 }
 
 
-/* Fart animation */
+#message.show {
 
-#duck.fart {
-    animation: fart 0.6s ease-in-out infinite;
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
 }
 
 
-@keyframes fart {
+/* Final farting duck */
+
+#duck.finalDuck {
+
+    font-size: clamp(55px, 16vw, 80px);
+
+    animation: fartDance 0.5s infinite;
+
+}
+
+
+@keyframes fartDance {
 
     0% {
         transform: rotate(0deg);
     }
 
     25% {
-        transform: rotate(-10deg);
+        transform: rotate(-8deg);
     }
 
     50% {
-        transform: rotate(10deg);
+        transform: rotate(8deg);
     }
 
     75% {
-        transform: rotate(-10deg);
+        transform: rotate(-8deg);
     }
 
     100% {
         transform: rotate(0deg);
+    }
+
+}
+
+
+/* Friend popup */
+
+#friendPopup {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0, 0, 0, 0.65);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        opacity 0.3s ease;
+
+    z-index: 100;
+}
+
+
+#friendPopup.show {
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+
+/* Popup box */
+
+.popupContent {
+
+    position: relative;
+
+    width: min(90vw, 400px);
+
+    max-height: 90vh;
+
+    overflow: auto;
+
+    padding: 20px;
+
+    background: white;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 10px 40px
+        rgba(0, 0, 0, 0.3);
+
+    animation: popupBounce 0.5s ease;
+}
+
+
+@keyframes popupBounce {
+
+    0% {
+        transform: scale(0.5);
+    }
+
+    70% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+
+/* Friend image */
+
+.popupContent img {
+
+    display: block;
+
+    width: 100%;
+
+    max-height: 55vh;
+
+    object-fit: cover;
+
+    border-radius: 18px;
+}
+
+
+/* Popup text */
+
+.popupContent h2 {
+
+    margin-bottom: 5px;
+
+    font-size: clamp(24px, 7vw, 34px);
+
+}
+
+
+.popupContent p {
+
+    margin: 8px 0;
+
+    font-size: 18px;
+
+}
+
+
+.popupContent .smallText {
+
+    color: #777;
+
+    font-size: 14px;
+
+}
+
+
+/* Close button */
+
+#closeButton {
+
+    position: absolute;
+
+    top: 10px;
+
+    right: 10px;
+
+    width: 44px;
+
+    height: 44px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: white;
+
+    color: #333;
+
+    font-size: 28px;
+
+    line-height: 40px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.2);
+
+    z-index: 2;
+}
+
+
+/* Phone-specific adjustments */
+
+@media (max-width: 600px) {
+
+    h1 {
+        margin-top: 25px;
+    }
+
+    #instructions {
+        font-size: 14px;
+    }
+
+    #message {
+        bottom: 25px;
+    }
+
+    .popupContent {
+        padding: 15px;
     }
 
 }
