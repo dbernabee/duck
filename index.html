@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tooting duck</title>
+
+    <title>Duck Website</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>toot! toot! why...hello there! this is deriod the duck: 🦆</h1>
-        <h2>he's quite the mischiveous lil duck...running around loose...people always talk about a goose chase...pff! it should be
-        more like a duck chase...catch him if u can rommel...</h2>
-    </header>
+    <h1>Welcome to my website! 🦆</h1>
 
-    <!-- The Duck -->
+    <!-- Duck -->
     <div id="duck">🦆</div>
 
-    <!-- Cute message -->
+    <!-- Message -->
     <div id="message"></div>
 
     <script>
@@ -25,6 +24,7 @@
         const message = document.getElementById("message");
 
         let hovers = 0;
+        let stopped = false;
 
         const messages = [
             "Quack! 💛",
@@ -39,36 +39,67 @@
             "Okay... one more! 😳"
         ];
 
-        duck.addEventListener("mouseenter", function () {
+        // Move duck to a random position
+        function moveDuck() {
 
-            hovers++;
+            const maxX = window.innerWidth - 100;
+            const maxY = window.innerHeight - 100;
 
-            // Show cute message
-            message.textContent = messages[hovers - 1];
-            message.style.display = "block";
-
-            // Move duck somewhere random
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
 
             duck.style.left = x + "px";
             duck.style.top = y + "px";
+        }
 
-            // After 10 hovers...
+        // Move duck every 2 seconds
+        const moveTimer = setInterval(function() {
+
+            if (!stopped) {
+                moveDuck();
+            }
+
+        }, 2000);
+
+
+        // Hover over duck
+        function duckHover() {
+
+            if (stopped) {
+                return;
+            }
+
+            hovers++;
+
+            // Show message
+            message.textContent = messages[hovers - 1];
+            message.style.display = "block";
+
+            // Move duck
+            moveDuck();
+
+            // 10th hover
             if (hovers >= 10) {
 
-                duck.style.cursor = "default";
+                stopped = true;
+
+                clearInterval(moveTimer);
+
                 message.textContent = "PFFFFT! 💨🦆";
 
-                // Make duck stop moving
-                duck.removeEventListener("mouseenter", arguments.callee);
-            }
-        });
-    </script>
+                // Little fart animation
+                duck.classList.add("fart");
 
-    <footer>
-        <p> made w/ lots of love at 3AM becuz im procrasinating my homework and wanted to have some fun (god forbid right!)</p>
-    </footer>
+            }
+        }
+
+        duck.addEventListener("mouseenter", duckHover);
+
+
+        // Initial position
+        moveDuck();
+
+    </script>
 
 </body>
 </html>
