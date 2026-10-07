@@ -14,10 +14,57 @@
         more like a duck chase...catch him if u can mr.rommel...</h2>
     </header>
 
-    <main>
-        <section>
-        </section>
-    </main>
+    <!-- The Duck -->
+    <div id="duck">🦆</div>
+
+    <!-- Cute message -->
+    <div id="message"></div>
+
+    <script>
+        const duck = document.getElementById("duck");
+        const message = document.getElementById("message");
+
+        let hovers = 0;
+
+        const messages = [
+            "Quack! 💛",
+            "You found me!",
+            "Hehe, hi! 🥰",
+            "Have a quacktastic day!",
+            "You're egg-cellent! 🥚",
+            "Happy duck noises! 🦆",
+            "Quack quack! ✨",
+            "You made me smile! 💕",
+            "Squeeeak!",
+            "Okay... one more! 😳"
+        ];
+
+        duck.addEventListener("mouseenter", function () {
+
+            hovers++;
+
+            // Show cute message
+            message.textContent = messages[hovers - 1];
+            message.style.display = "block";
+
+            // Move duck somewhere random
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+
+            duck.style.left = x + "px";
+            duck.style.top = y + "px";
+
+            // After 10 hovers...
+            if (hovers >= 10) {
+
+                duck.style.cursor = "default";
+                message.textContent = "PFFFFT! 💨🦆";
+
+                // Make duck stop moving
+                duck.removeEventListener("mouseenter", arguments.callee);
+            }
+        });
+    </script>
 
     <footer>
         <p> made w/ lots of love at 3AM becuz im procrasinating my homework and wanted to have some fun (god forbid right!)</p>
