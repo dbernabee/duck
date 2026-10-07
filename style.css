@@ -97,7 +97,7 @@ h1 {
 
     position: fixed;
 
-    padding: 10px 16px;
+    padding: 10px 20px;
 
     background: white;
 
@@ -114,7 +114,7 @@ h1 {
     opacity: 0;
 
     transform:
-        translateY(10px);
+        translate(-50%, -100%);
 
     pointer-events: none;
 
@@ -123,6 +123,20 @@ h1 {
         transform 0.2s ease;
 
     z-index: 20;
+
+    max-width: 75vw;
+
+    text-align: center;
+}
+
+
+#message.show {
+
+    opacity: 1;
+
+    transform:
+        translate(-50%, -100%);
+
 }
 
 
