@@ -168,19 +168,27 @@
 
         function showMessage(text) {
 
-            message.textContent = text;
+        message.textContent = text;
 
-            message.classList.add("show");
+        // Get duck's position
+        const duckRect = duck.getBoundingClientRect();
 
+        // Put message next to duck
+        message.style.left =
+        (duckRect.left + duckRect.width / 2) + "px";
 
-            // Hide after 1.5 seconds
+        message.style.top =
+        (duckRect.top - 15) + "px";
 
-            setTimeout(function () {
+        message.classList.add("show");
 
-                message.classList.remove("show");
+        setTimeout(function () {
 
-            }, 1500);
-        }
+        message.classList.remove("show");
+
+        }, 1500);
+    }
+
 
 
         // =========================
