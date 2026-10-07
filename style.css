@@ -1,42 +1,99 @@
 body {
     margin: 0;
     min-height: 100vh;
+
     background: #fff8dc;
+
     font-family: Arial, sans-serif;
+
     text-align: center;
+
+    overflow: hidden;
 }
 
+
+/* Website title */
+
 h1 {
-    padding-top: 50px;
+    padding-top: 40px;
+
+    color: #333;
 }
+
+
+/* Duck */
 
 #duck {
     position: fixed;
-    left: 50%;
-    top: 50%;
 
     font-size: 60px;
+
     cursor: pointer;
 
-    transition: all 0.4s ease;
+    user-select: none;
+
+    transition:
+        left 0.8s ease,
+        top 0.8s ease,
+        transform 0.3s ease;
 }
+
+
+/* Cute message */
 
 #message {
     display: none;
 
     position: fixed;
-    padding: 10px 15px;
-
-    background: white;
-    border-radius: 15px;
-
-    font-size: 18px;
 
     left: 50%;
-    top: 70%;
+    bottom: 50px;
 
     transform: translateX(-50%);
 
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    padding: 12px 20px;
+
+    background: white;
+
+    border-radius: 20px;
+
+    font-size: 18px;
+
+    color: #333;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+
+    z-index: 10;
 }
 
+
+/* Fart animation */
+
+#duck.fart {
+    animation: fart 0.6s ease-in-out infinite;
+}
+
+
+@keyframes fart {
+
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-10deg);
+    }
+
+    50% {
+        transform: rotate(10deg);
+    }
+
+    75% {
+        transform: rotate(-10deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+
+}
