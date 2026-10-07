@@ -3,11 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <!-- Makes the website fit phones properly -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Duck Website 🦆</title>
+    <title>Catch the Duck 🦆</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -17,7 +15,7 @@
     <h1>Catch the duck! 🦆</h1>
 
     <p id="instructions">
-        Catch it 10 times...
+        Hover over the duck 10 times...
     </p>
 
     <!-- Duck -->
@@ -26,23 +24,34 @@
     <!-- Cute message -->
     <div id="message"></div>
 
-    <!-- Friend popup -->
-    <div id="friendPopup">
+
+    <!-- =========================
+         STINK POPUP
+         ========================= -->
+
+    <div id="stinkPopup">
 
         <div class="popupContent">
 
-            <button id="closeButton">×</button>
+            <!-- Close button -->
+            <button id="closeButton" aria-label="Close">
+                ×
+            </button>
 
-            <img src="IMG_9434.jpg" alt="My stink">
+            <!-- Your picture -->
+            <img
+                src="IMG_9434.JPG"
+                alt="The source of the stink"
+            >
 
             <h2>OH NO 😭💨</h2>
 
             <p>
-                You made the duck fart!
+                YOU MADE THE DUCK FART!
             </p>
 
             <p class="smallText">
-                ...and somehow your friend got blamed.
+                ...but somehow it smells like YOU. 💀
             </p>
 
         </div>
@@ -52,119 +61,215 @@
 
     <script>
 
-        const duck = document.getElementById("duck");
-        const message = document.getElementById("message");
+        // =========================
+        // GET ELEMENTS
+        // =========================
 
-        const friendPopup =
-            document.getElementById("friendPopup");
+        const duck =
+            document.getElementById("duck");
+
+        const message =
+            document.getElementById("message");
+
+        const stinkPopup =
+            document.getElementById("stinkPopup");
 
         const closeButton =
             document.getElementById("closeButton");
 
+
+        // =========================
+        // VARIABLES
+        // =========================
+
         let interactions = 0;
+
         let stopped = false;
 
 
+        // =========================
+        // CUTE MESSAGES
+        // =========================
+
         const messages = [
+
             "Quack! 💛",
-            "You found me!",
+
+            "You found me! 👀",
+
             "Hehe, hi! 🥰",
-            "Have a quacktastic day!",
+
+            "Have a quacktastic day! ✨",
+
             "You're egg-cellent! 🥚",
+
             "Happy duck noises! 🦆",
-            "Quack quack! ✨",
-            "You made me smile! 💕",
-            "Squeeeak!",
-            "Uh oh... 😳"
+
+            "Quack quack! 💕",
+
+            "You made me smile! 😊",
+
+            "Squeeeak! 🥹"
+
         ];
 
 
-        // Move duck somewhere random
+        // =========================
+        // MOVE DUCK
+        // =========================
+
         function moveDuck() {
 
-            if (stopped) return;
+            if (stopped) {
+                return;
+            }
+
+
+            const duckSize = 90;
 
             const padding = 20;
 
-            const duckSize = 70;
 
             const maxX =
-                window.innerWidth - duckSize - padding;
+                window.innerWidth
+                - duckSize
+                - padding;
+
 
             const maxY =
-                window.innerHeight - duckSize - padding;
+                window.innerHeight
+                - duckSize
+                - padding;
+
 
             const x =
-                padding + Math.random() * Math.max(0, maxX);
+                padding +
+                Math.random()
+                * Math.max(0, maxX);
+
 
             const y =
-                padding + Math.random() * Math.max(0, maxY);
+                padding +
+                Math.random()
+                * Math.max(0, maxY);
 
-            duck.style.left = x + "px";
-            duck.style.top = y + "px";
+
+            duck.style.left =
+                x + "px";
+
+            duck.style.top =
+                y + "px";
         }
 
 
-        // Duck moves around automatically
-        const moveTimer = setInterval(function () {
+        // =========================
+        // SHOW MESSAGE
+        // =========================
 
-            if (!stopped) {
-                moveDuck();
-            }
+        function showMessage(text) {
 
-        }, 2500);
-
-
-        // Duck interaction
-        function interactWithDuck() {
-
-            if (stopped) return;
-
-            interactions++;
-
-            // Show cute message
-            message.textContent =
-                messages[interactions - 1];
+            message.textContent = text;
 
             message.classList.add("show");
 
 
-            // Move duck
-            moveDuck();
+            // Hide after 1.5 seconds
 
+            setTimeout(function () {
 
-            // Last interaction
-            if (interactions >= 10) {
+                message.classList.remove("show");
 
-                stopped = true;
-
-                clearInterval(moveTimer);
-
-                // Change duck into farting duck
-                duck.textContent = "🦆💨";
-
-                duck.classList.add("finalDuck");
-
-                message.textContent =
-                    "PFFFFT! 💨";
-
-                // Wait a moment, then show friend
-                setTimeout(function () {
-
-                    friendPopup.classList.add("show");
-
-                }, 1000);
-            }
+            }, 1500);
         }
 
 
-        /*
-            DESKTOP:
-            Hover over duck
+        // =========================
+        // AUTOMATIC DUCK MOVEMENT
+        // =========================
 
-            MOBILE:
-            Tap duck
-        */
+        const moveTimer =
+            setInterval(function () {
+
+                if (!stopped) {
+
+                    moveDuck();
+
+                }
+
+            }, 2500);
+
+
+        // =========================
+        // DUCK INTERACTION
+        // =========================
+
+        function interactWithDuck() {
+
+            // Don't allow anything
+            // after the final interaction
+
+            if (stopped) {
+                return;
+            }
+
+
+            interactions++;
+
+
+            // =========================
+            // INTERACTIONS 1–9
+            // =========================
+
+            if (interactions < 10) {
+
+                showMessage(
+                    messages[interactions - 1]
+                );
+
+                moveDuck();
+
+                return;
+            }
+
+
+            // =========================
+            // INTERACTION #10
+            // =========================
+
+            stopped = true;
+
+            clearInterval(moveTimer);
+
+
+            // Change duck into
+            // farting duck
+
+            duck.textContent = "🦆💨";
+
+            duck.classList.add("finalDuck");
+
+
+            // Final message
+
+            showMessage(
+                "PFFFFT! 💨"
+            );
+
+
+            // Show stink popup
+            // after a short delay
+
+            setTimeout(function () {
+
+                stinkPopup.classList.add("show");
+
+            }, 1000);
+        }
+
+
+        // =========================
+        // DESKTOP
+        // =========================
 
         duck.addEventListener(
             "mouseenter",
@@ -172,31 +277,47 @@
         );
 
 
+        // =========================
+        // MOBILE
+        // =========================
+
         duck.addEventListener(
             "click",
             interactWithDuck
         );
 
 
-        // Close friend popup
+        // =========================
+        // CLOSE POPUP
+        // =========================
+
         closeButton.addEventListener(
             "click",
             function () {
 
-                friendPopup.classList.remove("show");
+                stinkPopup.classList.remove(
+                    "show"
+                );
 
             }
         );
 
 
-        // Also close if they tap outside popup
-        friendPopup.addEventListener(
+        // =========================
+        // CLICK OUTSIDE POPUP
+        // =========================
+
+        stinkPopup.addEventListener(
             "click",
             function (event) {
 
-                if (event.target === friendPopup) {
+                if (
+                    event.target === stinkPopup
+                ) {
 
-                    friendPopup.classList.remove("show");
+                    stinkPopup.classList.remove(
+                        "show"
+                    );
 
                 }
 
@@ -204,7 +325,10 @@
         );
 
 
-        // Initial duck position
+        // =========================
+        // START DUCK
+        // =========================
+
         moveDuck();
 
     </script>
@@ -212,4 +336,5 @@
 </body>
 
 </html>
+
 
